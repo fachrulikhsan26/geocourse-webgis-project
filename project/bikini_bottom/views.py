@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.serializers import serialize
 from .models import Facility
+from .forms import FacilityForm
 from django.http import HttpResponse, JsonResponse
 import ast #untuk membuat format koordinat menjadi sebuah object
 
@@ -38,3 +39,20 @@ def custom_map_api(request):
         } 
         features['features'].append(feature)
     return JsonResponse(features, safe=False) 
+
+def facility_form_add(request):
+  if request.method == 'POST':
+    form = FacilityForm(request.POST, request.FILES)
+    if form.is_valid():
+       data = form.save(commit=False)
+       data.operator = request.user
+       data.save()
+       return redirect ('home')
+    
+  else:
+     form = FacilityForm()
+
+  context = {
+      'form': form
+  }
+  return render(request,'pages/facility_add.html', context)

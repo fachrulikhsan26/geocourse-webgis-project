@@ -18,6 +18,7 @@
 
 {% block body %} 
   <h1>Testing Inheritance HTML</h1>
+  <a href="{% url 'facility_form_add' %}" class="btn btn-primary">Add Fasilitas</a>
   <div id="peta" >TAMPILAN PETA</div>
 
   <script>
@@ -33,8 +34,22 @@
       // .then(x => console.log(x.text))
       .then(response => response.json())
       .then(function(json){
-        console.log(json)
-        L.geoJSON(json).addTo(peta)
+        L.geoJSON(json, {
+          onEachFeature: function(feature, layer){
+            layer.bindPopup(feature.properties.name)
+            layer.bindPopup(
+              `
+              <h5>${feature.properties.name}</h5>
+              <ul>
+                <li>${feature.properties.price}</li>
+                <li>${feature.properties.price_unit}</li>
+              </ul>
+
+              `
+
+            )
+          }  
+        }).addTo(peta)
       })
   </script>
 {% endblock %}
