@@ -27,5 +27,14 @@
      maxZoom: 19,
      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(peta);
+    
+    // Membaca API JSON Untuk ditampilkan di leaflet
+    fetch('{% url "home_api" %}')
+      // .then(x => console.log(x.text))
+      .then(response => response.json())
+      .then(function(json){
+        console.log(json)
+        L.geoJSON(json).addTo(peta)
+      })
   </script>
 {% endblock %}
