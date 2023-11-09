@@ -22,6 +22,7 @@
          <th>Satuan Harga</th>
          <th>Foto</th>
          <th>Buka?</th>
+         <th></th>
        </tr>
     </thead>
     <tbody>
@@ -53,6 +54,10 @@
         <td><img src="{{item.photo.url}}" alt="" height="100px"></td>
         <td>
           {% if item.open %} ✅ {% else %} ⛔ {% endif %}      
+        </td>
+        <td>
+          <a href="{% url 'facility_form_update' item.id %}" class="btn btn-success btn-sm">Update</a>
+          <a href="{% url 'facility_form_delete' item.id %}" class="btn btn-danger btn-sm">Delete</a>
         </td>
       </tr>
       {% endfor %}  
